@@ -103,6 +103,27 @@ Copies the skill to `~/.claude/skills/reproject/` so you can just say
 "rename this project to gripe" in Claude Code and it'll do the whole thing,
 including checking for live sessions.
 
+## As a PowerShell function
+
+A wrapper worth having, because the common case is "rename the project I'm
+standing in" — which is also the case the CLI can't do on its own, since a
+process can't move its own working directory:
+
+```powershell
+function renamer {
+    param([Parameter(Position=0)][string]$Name, [switch]$DryRun)
+    $from = & git rev-parse --show-toplevel 2>$null
+    $from = if ($LASTEXITCODE -eq 0 -and $from) { $from.Replace('/','\') } else { (Get-Location).Path }
+    $dest = Join-Path (Split-Path $from -Parent) $Name
+    if (-not $DryRun) { Set-Location (Split-Path $from -Parent) }
+    node "$HOME\.claude\skills\reproject\reproject.js" $from $dest @(if ($DryRun) {'--dry-run'})
+    if (-not $DryRun) { Set-Location (Test-Path $dest ? $dest : $from) }
+}
+```
+
+`renamer gripe` then renames the whole repo, from anywhere inside it, and
+leaves you in the renamed folder.
+
 ## Install
 
 ```bash

@@ -1,0 +1,33 @@
+{
+  "name": "reproject",
+  "version": "1.0.0",
+  "description": "Rename or move a project folder without losing its Claude Code history",
+  "bin": {
+    "reproject": "reproject.js"
+  },
+  "main": "reproject.js",
+  "files": [
+    "reproject.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "rename",
+    "history",
+    "cli"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dested/reproject.git"
+  },
+  "license": "MIT",
+  "author": "Sal Aiello",
+  "engines": {
+    "node": ">=18"
+  }
+}
